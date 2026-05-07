@@ -1,0 +1,20 @@
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+.ccls
+
+# C/C++/CMake
+.clangd/
+compile_commands.json
+build/
+
+# ESP-IDF
+sdkconfig
+sdkconfig.old
+
+# Python / uv
+.venv/
+**__pycache__/**
+.uv/
+
