@@ -18,3 +18,8 @@ sdkconfig.old
 **__pycache__/**
 .uv/
 
+# Others
+**.cache
+**/*.bak
+**/*.backup
+
