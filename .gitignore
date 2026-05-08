@@ -23,6 +23,4 @@ sdkconfig.old
 **/.cache
 **/*.bak
 **/*.backup
-
-kicad
-
+**/*.step

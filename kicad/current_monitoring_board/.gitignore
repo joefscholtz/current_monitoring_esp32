@@ -1,0 +1,10 @@
+*.bak
+*.kicad_pcb-bak
+*.sch-bak
+*~
+fp-info-cache
+fp-lib-table
+_autosave-*
+*.lck
+.history/
+current_monitoring_board-backups/
