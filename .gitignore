@@ -19,7 +19,10 @@ sdkconfig.old
 .uv/
 
 # Others
-**.cache
+**/cache
+**/.cache
 **/*.bak
 **/*.backup
+
+kicad
 
