@@ -2,4 +2,5 @@
 	(version 7)
 	(lib (name "Tantalum Cap") (type "KiCad") (uri "/home/joe/digitalli/current_monitoring_esp32/kicad/mods/TCJB226M025R0150E/KiCad/TCJB226M025R0150E.kicad_sym") (options "") (descr ""))
 	(lib (name "Push Button") (type "KiCad") (uri "/home/joe/digitalli/current_monitoring_esp32/kicad/mods/TS-1088-AR02016") (options "") (descr ""))
+	(lib (name "Phoenix Connector") (type "Legacy") (uri "/home/joe/digitalli/current_monitoring_esp32/kicad/mods/ptsm_0_5_2_2_5_h_smd_r_24/1702473.lib") (options "") (descr ""))
 )
