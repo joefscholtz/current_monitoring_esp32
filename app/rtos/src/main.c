@@ -1,7 +1,9 @@
 #include "current_monitor.h"
 #include "esp_log.h"
+#include "esp_rom_serial_output.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include <stdio.h>
 
 static const char *TAG = "RTOS_APP";
 
@@ -33,6 +35,9 @@ void app_main(void) {
       vSensorProcessingTask, "SensorMonitor", 4096, (void *)monitor,
       configMAX_PRIORITIES - 1, // high priority to minimize jitter
       NULL, 1);
+
+  esp_rom_printf("\n--- ROM PRINT: RTOS Task Started ---\n");
+  printf("RTOS Task Started\n");
 
   ESP_LOGI(TAG, "Sensor task spawned on Core 1.");
 }

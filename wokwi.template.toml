@@ -1,0 +1,7 @@
+[wokwi]
+version = 1
+firmware = '.pio/build/${PIO_ENV}/flasher_args.json'
+# firmware = '.pio/build/${PIO_ENV}/firmware.elf'
+elf = '.pio/build/${PIO_ENV}/firmware.elf'
+diagram = 'diagram.json'
+baudrate = 115200

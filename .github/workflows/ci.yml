@@ -77,3 +77,6 @@ jobs:
 
       - name: Build Firmware
         run: just build
+
+      # - name: Simulate
+      #   run: just test-sim

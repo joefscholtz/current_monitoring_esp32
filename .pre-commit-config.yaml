@@ -21,7 +21,7 @@ repos:
   - repo: local
     hooks:
       - id: docker-check
-        name: Dockerized QA
+        name: Dockerized CI
         entry: docker-compose run --rm current_monitoring_esp32-app bash -c "just format && just test"
         # entry: echo "Nothing being done" || true
         language: system
