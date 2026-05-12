@@ -14,6 +14,8 @@ init:
   uv sync
   uv run pio run -t compiledb
   @echo "Done. Use 'uv run pio run' to build."
+
+pre-commit-init:
   uv run pre-commit install --hook-type pre-commit --hook-type pre-push
 
 lsp-update:

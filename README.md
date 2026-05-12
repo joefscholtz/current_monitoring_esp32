@@ -65,7 +65,53 @@ uv sync
 uv run pio run -t compiledb
 ```
 
-## Usage
+### Git hooks
+
+using uv and just
+
+```bash
+just pre-commit-init
+```
+
+using only uv
+
+```bash
+uv run pre-commit install --hook-type pre-commit --hook-type pre-push
+```
+
+and it can also be installed using only Python.
+
+## Build
+
+### With Docker
+
+using just:
+
+```bash
+just dev build
+```
+
+without just
+
+```bash
+DOCKER_COMPOSE_SERVICE=current_monitoring_esp32-app
+
+docker-compose run --rm $DOCKER_COMPOSE_SERVICE just init
+```
+
+### Without Docker:
+
+using just:
+
+```bash
+just build
+```
+
+without just
+
+```bash
+uv run pio run -e bare_metal -e rtos
+```
 
 ## TODO
 
