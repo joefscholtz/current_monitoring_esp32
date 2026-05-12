@@ -11,9 +11,7 @@ default:
   just --list
 
 init:
-  @echo "Initializing the project"
-  uv run platformio project init --board esp32dev --project-option "framework=espidf"
-  @echo "Generating compilation database for Neovim/clangd..."
+  uv sync
   uv run pio run -t compiledb
   @echo "Done. Use 'uv run pio run' to build."
   uv run pre-commit install --hook-type pre-commit --hook-type pre-push

@@ -20,10 +20,45 @@
 
 ## Installation
 
-### Requirements
+### With Docker
+
+Requirements:
 
 - Docker
 - Docker Compose
-- uv (Python manager)
-- PlatformIO CLI (Optional)
 - just (Optional)
+
+using just:
+
+```bash
+just dev init
+```
+
+without just
+
+```bash
+DOCKER_COMPOSE_SERVICE=current_monitoring_esp32-app
+
+docker-compose run --rm $DOCKER_COMPOSE_SERVICE just init
+```
+
+### Without Docker:
+
+Requirements:
+
+- uv (Python manager)
+- PlatformIO CLI
+- just (Optional)
+
+using just:
+
+```bash
+just init
+```
+
+without just
+
+```bash
+uv sync
+uv run pio run -t compiledb
+```
