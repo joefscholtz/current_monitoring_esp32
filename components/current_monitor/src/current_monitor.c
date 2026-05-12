@@ -57,8 +57,8 @@ esp_err_t current_monitor_begin(current_monitor_handle_t *handle) {
 current_readings_t
 current_monitor_get_readings(current_monitor_handle_t *handle) {
   current_readings_t readings = {0};
-  double sum_sq_leakage = 0;
-  double sum_sq_load = 0;
+  int le_samples[SAMPLE_COUNT];
+  int lo_samples[SAMPLE_COUNT];
   int le_raw, lo_raw;
   int64_t next_sample_time = esp_timer_get_time(); // in ms
 
@@ -75,19 +75,15 @@ current_monitor_get_readings(current_monitor_handle_t *handle) {
     adc_oneshot_read(handle->load_adc_handle,
                      handle->load_config.adc_channel_id, &lo_raw);
 
-    // center the 12-bit value (0-4095) around the 1.65V virtual ground
-    float le_centered = (float)le_raw - 2048.0f;
-    float lo_centered = (float)lo_raw - 2048.0f;
-
-    sum_sq_leakage += (le_centered * le_centered);
-    sum_sq_load += (lo_centered * lo_centered);
+    le_samples[i] = le_raw;
+    lo_samples[i] = lo_raw;
 
     next_sample_time += SAMPLE_INTERVAL_US;
   }
 
   // RMS
-  readings.leakage_rms = sqrt(sum_sq_leakage / SAMPLE_COUNT);
-  readings.load_rms = sqrt(sum_sq_load / SAMPLE_COUNT);
+  readings.leakage_rms = compute_rms(le_samples, SAMPLE_COUNT, 2048);
+  readings.load_rms = compute_rms(lo_samples, SAMPLE_COUNT, 2048);
   // convert using calibration
 
   return readings;
