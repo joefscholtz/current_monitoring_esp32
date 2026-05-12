@@ -23,6 +23,7 @@ sdkconfig.old
 wokwi.toml
 
 # Others
+.env
 **/cache
 **/.cache
 **/*.bak
