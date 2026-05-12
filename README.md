@@ -71,9 +71,9 @@ uv run pio run -t compiledb
 
 ### current_monitor:
 
-[ ] Acquisition interval missed
-[ ] Convert raw into voltage
-[ ] Calibration
+[ ] - Acquisition interval missed
+[ ] - Convert raw into voltage
+[ ] - Calibration
 
 ### mqtt:
 
@@ -81,14 +81,14 @@ uv run pio run -t compiledb
 
 ### KiCad
 
-[ ] MQTT thru Ethernet
+[ ] - MQTT thru Ethernet
 
 ### Docs:
 
-[ ] Hardware mapping
-[ ] C4 model
+[ ] - Hardware mapping
+[ ] - C4 model
 
 ### Other:
 
-[ ] Test with PlatformIO IDE
-[ ] Run Tests without `static inline` functions
+[ ] - Test with PlatformIO IDE
+[ ] - Run Tests without `static inline` functions
