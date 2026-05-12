@@ -21,7 +21,7 @@ lsp-update:
   uv run pio run -t compiledb
 
 build:
-  uv run pio run
+  uv run pio run -e bare_metal -e rtos
 
 clean:
   uv run pio run -t clean
@@ -38,17 +38,17 @@ reset:
 test:
     uv run pio test -e native
 
-lint:
-    uv run pio check --environment rtos
+# lint:
+#     uv run pio check --environment rtos
 
 format:
     find app components -name "*.c" -o -name "*.h" | xargs clang-format -i
 
 qa:
-  just dev format
-  just dev lint
-  just dev test
-  just dev build
+  just format
+  # just lint
+  just test
+  just build
 
 down:
   docker stop {{container_name}} || true

@@ -3,7 +3,7 @@ repos:
     hooks:
       - id: docker-check
         name: Dockerized QA
-        # entry: docker-compose run --rm current_monitoring_esp32-app just qa
-        entry: echo "Nothing being done" || true
+        entry: docker-compose run --rm current_monitoring_esp32-app bash -c "just format && just test"
+        # entry: echo "Nothing being done" || true
         language: system
         pass_filenames: false
