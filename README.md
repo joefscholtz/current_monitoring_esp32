@@ -14,6 +14,7 @@
 ├── kicad/                      # KiCad files
 │   └── current_monitor_board/  # KiCad project
 │   └── mods/                   # KiCad libraries
+├── scripts/                    # Scripts for the project
 ├── test/                       # Unit tests for the monitor library
 ├── platformio.ini              # Multi-environment config
 ├── wokwi.toml                  # Simulation config for ESP32 + Sensors
@@ -113,6 +114,10 @@ without just
 uv run pio run -e bare_metal -e rtos
 ```
 
+## Flash
+
+...
+
 ## TODO
 
 ### current_monitor:
@@ -125,14 +130,20 @@ uv run pio run -e bare_metal -e rtos
 
 ### App:
 
-### KiCad
+### Flash
 
-- [ ] MQTT thru Ethernet
+- [ ] Add flash scripts
+- [ ] efuse
+- [ ] self-contained flash script
 
 ### Docs:
 
 - [ ] Hardware mapping
 - [ ] C4 model
+
+### KiCad
+
+- [ ] MQTT thru Ethernet
 
 ### Other:
 
