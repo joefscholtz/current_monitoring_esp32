@@ -1,5 +1,5 @@
 # PlatformIO
-.pio/
+.pio*/
 .pioenvs/
 .piolibdeps/
 .ccls
@@ -14,7 +14,7 @@ sdkconfig
 sdkconfig.old
 
 # Python / uv
-.venv/
+.venv*/
 **__pycache__/**
 .uv/
 
@@ -23,6 +23,5 @@ sdkconfig.old
 **/.cache
 **/*.bak
 **/*.backup
-
-kicad
-
+**/*.zip
+node_modules

@@ -1,0 +1,9 @@
+Manufacturer=Kyocera AVX
+PartNumber=TCJB226M025R0150E
+PartCategory=Capacitor Polarised
+PackageCategory=Capacitor Moulded Polarised
+PinCount=2
+Version=1.3
+Released=2024-10-04 06:35:50
+Downloaded=2026-05-08 22:24:31
+3D=Y

@@ -1,0 +1,23 @@
+services:
+  current_monitoring_esp32-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: current_monitoring_esp32:latest
+
+    volumes:
+      - .:/project:z
+      - pio_cache:/root/.platformio
+      - /dev:/dev
+    working_dir: /project
+    environment:
+      - IS_DOCKER=true
+      - UV_PROJECT_ENVIRONMENT=.venv_docker
+      - PIO_BUILD_DIR=.pio_docker
+      - PLATFORMIO_BUILD_DIR=.pio_docker
+    device_cgroup_rules:
+      - "c 188:* rwm" # USB serial devices /dev/ttyUSB* (major=188)
+    user: "root"
+
+volumes:
+  pio_cache:

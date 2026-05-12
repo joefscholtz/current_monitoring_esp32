@@ -1,0 +1,2 @@
+set(APP_SRCS "${CMAKE_CURRENT_LIST_DIR}/src/main.c")
+set(APP_INCLUDES "${CMAKE_CURRENT_LIST_DIR}/include")

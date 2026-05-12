@@ -1,6 +1,13 @@
-# This file was automatically generated for projects
-# without default 'CMakeLists.txt' file.
+if(CMAKE_C_FLAGS MATCHES "CHOSEN_APP=bare_metal")
+    set(APP_SUBDIR "bare_metal")
+else()
+    set(APP_SUBDIR "rtos")
+endif()
 
-FILE(GLOB_RECURSE app_sources ${CMAKE_SOURCE_DIR}/app/*.*)
+include("${CMAKE_CURRENT_LIST_DIR}/${APP_SUBDIR}/app_definition.cmake")
 
-idf_component_register(SRCS ${app_sources})
+idf_component_register(
+    SRCS "${APP_SRCS}"
+    INCLUDE_DIRS "${APP_INCLUDES}"
+    REQUIRES current_monitor
+)
