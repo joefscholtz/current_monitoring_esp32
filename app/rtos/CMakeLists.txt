@@ -1,6 +1,7 @@
-file(GLOB_RECURSE app_sources "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/*.c")
+set(srcs "${CMAKE_CURRENT_SOURCE_DIR}/src/main.c")
 
 idf_component_register(
-    SRCS "${app_sources}"
+    SRCS "${srcs}"
     INCLUDE_DIRS "include"
+    REQUIRES current_monitor
 )
