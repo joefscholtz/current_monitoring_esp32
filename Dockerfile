@@ -1,5 +1,5 @@
-FROM python:3.11-slim
-# FROM espressif/idf:v5.2.1
+# FROM python:3.11-slim
+FROM espressif/idf:v5.2.1
 
 RUN apt-get update && apt-get install -y \
     curl \
