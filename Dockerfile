@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM espressif/idf:v5.2.1
 
 RUN apt-get update && apt-get install -y \
     curl \
@@ -19,3 +19,6 @@ WORKDIR /project
 RUN uv pip install --system platformio
 
 RUN pio platform install espressif32
+
+RUN curl -L https://wokwi.com/ci/install.sh | sh && \
+    mv /root/.wokwi/bin/wokwi-cli /usr/local/bin/

@@ -1,0 +1,14 @@
+# simulation.resc
+
+using sysbus
+mach create "esp32"
+machine LoadPlatformDescription @scripts/cpus/esp32.repl
+
+# It pipes everything sent to UART0 directly into the Renode log.
+showAnalyzer uart0 Antmicro.Renode.Analyzers.LoggingUartAnalyzer
+
+# Load the ELF produced by PlatformIO
+sysbus LoadELF @.pio/build/rtos/firmware.elf
+
+# Start the simulation
+start

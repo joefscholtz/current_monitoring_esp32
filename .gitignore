@@ -18,10 +18,15 @@ sdkconfig.old
 **__pycache__/**
 .uv/
 
+#Wokwi
+.wokwi/
+wokwi.toml
+
 # Others
 **/cache
 **/.cache
 **/*.bak
 **/*.backup
 **/*.zip
+**/*.log
 node_modules

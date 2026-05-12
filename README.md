@@ -51,6 +51,7 @@ Requirements:
 
 - uv (Python manager)
 - PlatformIO CLI
+- Wokwi (Optional, needed for simulation)
 - just (Optional)
 
 using just:

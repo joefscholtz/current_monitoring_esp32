@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "author": "Joe Ferreira Scholtz",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-v1", "id": "esp", "top": 0, "left": 0 },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "load_sensor",
+      "top": 100,
+      "left": 150
+    },
+    {
+      "type": "wokwi-potentiometer",
+      "id": "leakage_sensor",
+      "top": 200,
+      "left": 150
+    }
+  ],
+  "connections": [
+    ["esp:GND.1", "load_sensor:GND", "black", []],
+    ["esp:3V3", "load_sensor:VCC", "red", []],
+    ["esp:D34", "load_sensor:SIG", "green", []],
+
+    ["esp:GND.1", "leakage_sensor:GND", "black", []],
+    ["esp:3V3", "leakage_sensor:VCC", "red", []],
+    ["esp:D35", "leakage_sensor:SIG", "blue", []]
+  ]
+}
