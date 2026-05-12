@@ -59,6 +59,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Configure Git Safe Directory
+        run: git config --global --add safe.directory /github/workspace
+
       - name: Check Formatting
         run: |
           just format
