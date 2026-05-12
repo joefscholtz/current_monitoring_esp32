@@ -16,6 +16,7 @@ init:
   @echo "Generating compilation database for Neovim/clangd..."
   uv run pio run -t compiledb
   @echo "Done. Use 'uv run pio run' to build."
+  uv run pre-commit install --hook-type pre-commit --hook-type pre-push
 
 lsp-update:
   uv run pio run -t compiledb
@@ -64,4 +65,3 @@ enter: down && down
 
 dev target: down && down
     docker-compose run --rm {{docker-compose-service}} just {{target}}
-
