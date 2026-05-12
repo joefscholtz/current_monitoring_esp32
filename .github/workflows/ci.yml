@@ -1,0 +1,68 @@
+name: Project CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}-ci
+
+jobs:
+  # Job 1: Build/Update the CI Environment
+  build-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          # Caching makes incremental builds extremely fast
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # Job 2: Run all checks inside the container
+  run-ci:
+    needs: build-image
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.repository }}-ci:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check Formatting
+        run: |
+          just format
+          git diff --exit-code || (echo "Error: Code not formatted. Run 'just format' locally." && exit 1)
+
+      - name: Static Analysis
+        run: just lint
+
+      - name: Unit Tests
+        run: just test
+
+      - name: Build Firmware
+        run: just build

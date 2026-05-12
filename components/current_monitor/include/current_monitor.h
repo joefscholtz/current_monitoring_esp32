@@ -1,6 +1,7 @@
 #ifndef CURRENT_MONITOR_H
 #define CURRENT_MONITOR_H
 
+#include "current_monitor_utils.h"
 #include "esp_adc/adc_oneshot.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
