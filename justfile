@@ -39,15 +39,15 @@ reset:
 test:
     uv run pio test -e native
 
-# lint:
-#     uv run pio check --environment rtos
+lint:
+    uv run pio check --environment rtos
 
 format:
     find app components -name "*.c" -o -name "*.h" | xargs clang-format -i
 
 qa:
   just format
-  # just lint
+  just lint
   just test
   just build
 
