@@ -103,7 +103,7 @@ without just
 ```bash
 DOCKER_COMPOSE_SERVICE=current_monitoring_esp32-app
 
-docker-compose run --rm $DOCKER_COMPOSE_SERVICE just init
+docker-compose run --rm $DOCKER_COMPOSE_SERVICE just build
 ```
 
 ### Without Docker:
@@ -128,10 +128,11 @@ uv run pio run -e bare_metal -e rtos
 
 ### current_monitor:
 
-- [ ] Acquisition interval missed
-- [ ] Convert raw into voltage
-- [ ] Calibration
+- [x] Acquisition interval missed
+- [x] Convert raw into voltage
+- [x] Calibration
 - [ ] Move pin definitions to Kconfig
+- [ ] Check `MAX_DIGI_VALUE`
 
 ### mqtt:
 
