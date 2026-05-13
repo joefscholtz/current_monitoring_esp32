@@ -10,11 +10,11 @@ C4Container
     System_Boundary(hw, "Physical Hardware") {
         Container(leakage_ct, "CT 2000:1 (Leakage)", "Hardware", "GPIO 34 (ADC1_CH6) + 22k Burden")
         Container(load_ct, "CT 1000:1 (Load)", "Hardware", "GPIO 35 (ADC1_CH7) + 100R Burden")
-        Container(eth_chip, "ENC28J60 (Ethernet)", "SPI Peripheral", "GPIO 18, 19, 23 (VSPI)")
+        Container(eth_chip, "DISABLED: ENC28J60 (Ethernet)", "SPI Peripheral", "GPIO 18, 19, 23 (VSPI)")
     }
 
     %% Firmware Layer
-    Container_Boundary(esp32, "ESP32 SoC") {
+    Container_Boundary(esp32, "ESP32 Firmware") {
 
         Container_Boundary(core1, "Core 1 (Sensing)") {
             Container(sensor_task, "Sensor Task", "FreeRTOS", "vTaskDelayUntil (300ms frequency)")
@@ -39,6 +39,18 @@ C4Container
     Rel(network_task, nm_comp, "Triggers Pub", "API Call")
     Rel(nm_comp, eth_chip, "SPI Commands", "VSPI Bus")
 ```
+
+## 2. Hardware Mapping:
+
+The system is designed for the ESP32-WROOM-32 (30 or 38 pin DevKit). The following pins were selected based on their peripheral capabilities (ADC1 vs ADC2) availability.
+
+| Header 1 | Header 2 | Header 3 |
+
+| Component     | GPIO | Peripheral | Function     | Logic / Signal                  |
+| ------------- | ---- | ---------- | ------------ | ------------------------------- |
+| Leakage CT    | 34   | ADC1_CH6   | Analog Input | AC signal + 1.65V Bias          |
+| Load CT       | 35   | ADC1_CH7   | Analog Input | AC signal + 1.65V Bias          |
+| V_Ref Monitor | 32   | ADC1_CH4   | Analog Input | 1.65V DC Mid-rail (Calibration) |
 
 ## 3. Design Decisions
 
@@ -65,4 +77,4 @@ To meet the 300ms maximum interval requirement, the firmware implements a high-f
 - Opaque Handle Pattern: By using pointer-based handles for component initialization and interaction, the internal structures remain protected from the application layer, reducing the risk of accidental memory corruption.
 - Decoupling (Dual-Core): Sampling is pinned to Core 1 to ensure zero jitter.
 - Networking (WiFi/MQTT) is pinned to Core 0 to handle the non-deterministic TCP/IP stack.
-- Unified Identity: Both Wi-Fi and Ethernet use the internal Factory MAC as the MQTT Client ID, ensuring the backend treats the device as a single entity regardless of the physical connection.
+- Unified Identity: Both Wi-Fi and Ethernet (Ethernet not fully implemented) use the internal Factory MAC as the MQTT Client ID, ensuring the backend treats the device as a single entity regardless of the physical connection.

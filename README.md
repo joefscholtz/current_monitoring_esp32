@@ -131,6 +131,7 @@ uv run pio run -e bare_metal -e rtos
 - [ ] Acquisition interval missed
 - [ ] Convert raw into voltage
 - [ ] Calibration
+- [ ] Move pin definitions to Kconfig
 
 ### mqtt:
 
@@ -144,8 +145,8 @@ uv run pio run -e bare_metal -e rtos
 
 ### Docs:
 
-- [ ] Hardware mapping
-- [ ] C4 model
+- [x] Hardware mapping
+- [x] C4 model
 
 ### KiCad
 
