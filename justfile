@@ -22,7 +22,7 @@ lsp-update:
   uv run pio run -t compiledb
 
 build:
-  uv run pio run -e bare_metal -e rtos
+  export $(cat .env | xargs) && uv run pio run -e bare_metal -e rtos
 
 clean:
   uv run pio run -t clean

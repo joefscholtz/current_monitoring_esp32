@@ -1,0 +1,5 @@
+dependencies:
+  espressif/mqtt: "*"
+  # espressif/esp_eth_mac_enc28j60: "*"
+  # espressif/enc28j60: "*"
+  # espressif/esp_eth_drivers: "*"

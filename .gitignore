@@ -10,6 +10,7 @@ compile_commands.json
 build/
 
 # ESP-IDF
+managed_components/
 sdkconfig
 sdkconfig.old
 
@@ -23,6 +24,7 @@ sdkconfig.old
 wokwi.toml
 
 # Others
+.env
 **/cache
 **/.cache
 **/*.bak

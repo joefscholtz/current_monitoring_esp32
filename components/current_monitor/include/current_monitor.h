@@ -7,6 +7,7 @@
 #include "freertos/task.h"
 #include "hal/adc_types.h"
 #include <assert.h>
+#include <stdint.h>
 
 // SAMPLE_COUNT*SAMPLE_INTERVAL_US == 50ms satisfies Nyquist for 50 adn 60Hz
 #define SAMPLE_COUNT 100
@@ -34,7 +35,11 @@ typedef struct {
 typedef struct {
   float leakage_rms;
   float load_rms;
+  uint64_t timestamp_ms;
 } current_readings_t;
+
+void current_monitor_readings_to_str(const current_readings_t *readings,
+                                     char *out_str, size_t len);
 
 current_monitor_handle_t *
 current_monitor_init(current_reading_config_t leakage_config,
