@@ -19,28 +19,30 @@ void app_main(void) {
     ESP_LOGE(TAG, "Failed to initialize sensors");
     return;
   }
-
-  ESP_ERROR_CHECK(network_manager_init(NET_INTERFACE_WIFI))
+  network_manager_t *net_mgr =
+      network_manager_create(NET_INTERFACE_WIFI, CONFIG_MQTT_BROKER_URL);
+  ESP_ERROR_CHECK(network_manager_init(net_mgr));
 
   ESP_LOGI(TAG, "Starting Bare-Metal Super-Loop...");
 
-  while (1) {
+  int task_should_run = 1;
+  while (task_should_run) {
     TickType_t start_tick = xTaskGetTickCount();
-
     current_readings_t data = current_monitor_get_readings(monitor);
+    char payload_buffer[200];
 
     ESP_LOGI(TAG, "Leakage RMS: %.2f | Load RMS: %.2f", data.leakage_rms,
              data.load_rms);
 
-    if (network_is_connected()) {
-      char payload[128];
-      snprintf(payload, sizeof(payload),
-               "{\"leakage_rms\": %.2f, \"load_rms\": %.2f}", data.leakage_rms,
-               data.load_rms);
+    current_monitor_readings_to_str(&data, payload_buffer,
+                                    sizeof(payload_buffer));
 
-      network_mqtt_publish("v1/devices/me/telemetry", payload);
+    if (network_is_connected(net_mgr)) {
+      network_mqtt_publish(net_mgr, CONFIG_MQTT_TOPIC, payload_buffer);
     }
 
     vTaskDelayUntil(&start_tick, pdMS_TO_TICKS(TOTAL_LOOP_MS));
   }
+  current_monitor_deinit(monitor);
+  network_manager_destroy(net_mgr);
 }

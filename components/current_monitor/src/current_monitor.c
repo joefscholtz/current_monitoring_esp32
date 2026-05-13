@@ -2,7 +2,18 @@
 #include "esp_adc/adc_oneshot.h"
 #include "esp_timer.h"
 #include <math.h>
+#include <stdio.h>
 #include <stdlib.h>
+
+void current_monitor_readings_to_str(const current_readings_t *readings,
+                                     char *out_str, size_t len) {
+  if (readings == NULL || out_str == NULL)
+    return;
+
+  snprintf(out_str, len, "{\"leakage_rms\":%.4f,\"load_rms\":%.2f,\"ts\":%llu}",
+           readings->leakage_rms, readings->load_rms,
+           (unsigned long long)(readings->timestamp_ms));
+}
 
 current_monitor_handle_t *
 current_monitor_init(current_reading_config_t leakage_config,
