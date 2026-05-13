@@ -1,5 +1,9 @@
 # current_monitoring_esp32
 
+Modular firmware project in PlatformIO and hardware design in KiCad using ESP32 and ESP-IDF framework for measuring current and detecting leakage using CT sensors, publishing the data via MQTT through Wifi ( and Ethernet, but not yet fully implemented ). For more informatation on design decisions consult the `docs` directory.
+
+![Custom ESP32-WROOM-32E Board](docs/assets/board.png)
+
 ## Project structure
 
 ```
@@ -7,9 +11,10 @@
 ├── .github/workflows/          # CI/CD
 ├── app/                        # Two alternatives to consume the library
 │   ├── bare_metal/             # Simple Super-Loop implementation
-│   └── rtos/                   # RTOS Task-based, using MQTT and non-blocking I/O
+│   └── rtos/                   # RTOS Task-based
 ├── components/                 # Library ESP-IDF style components
 │   └── current_monitor/        # RMS, Differential math, Calibration
+│   └── network_manager/        # Wifi, Ethernet and MQTT
 ├── docs/                       # Documentation
 ├── kicad/                      # KiCad files
 │   └── current_monitor_board/  # KiCad project
@@ -51,6 +56,7 @@ Requirements:
 
 - uv (Python manager)
 - PlatformIO CLI
+- Wokwi (Optional, needed for simulation)
 - just (Optional)
 
 using just:
@@ -97,7 +103,7 @@ without just
 ```bash
 DOCKER_COMPOSE_SERVICE=current_monitoring_esp32-app
 
-docker-compose run --rm $DOCKER_COMPOSE_SERVICE just init
+docker-compose run --rm $DOCKER_COMPOSE_SERVICE just build
 ```
 
 ### Without Docker:
@@ -122,9 +128,11 @@ uv run pio run -e bare_metal -e rtos
 
 ### current_monitor:
 
-- [ ] Acquisition interval missed
-- [ ] Convert raw into voltage
-- [ ] Calibration
+- [x] Acquisition interval missed
+- [x] Convert raw into voltage
+- [x] Calibration
+- [ ] Move pin definitions to Kconfig
+- [ ] Check `MAX_DIGI_VALUE`
 
 ### mqtt:
 
@@ -138,8 +146,8 @@ uv run pio run -e bare_metal -e rtos
 
 ### Docs:
 
-- [ ] Hardware mapping
-- [ ] C4 model
+- [x] Hardware mapping
+- [x] C4 model
 
 ### KiCad
 
@@ -147,5 +155,5 @@ uv run pio run -e bare_metal -e rtos
 
 ### Other:
 
-- [ ] Test with PlatformIO IDE
+- [x] Test with PlatformIO IDE
 - [ ] Run Tests without `static inline` functions

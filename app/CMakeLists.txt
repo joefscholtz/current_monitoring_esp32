@@ -9,5 +9,5 @@ include("${CMAKE_CURRENT_LIST_DIR}/${APP_SUBDIR}/app_definition.cmake")
 idf_component_register(
     SRCS "${APP_SRCS}"
     INCLUDE_DIRS "${APP_INCLUDES}"
-    REQUIRES current_monitor
+    REQUIRES current_monitor network_manager
 )

@@ -10,6 +10,7 @@ compile_commands.json
 build/
 
 # ESP-IDF
+managed_components/
 sdkconfig
 sdkconfig.old
 
@@ -18,10 +19,16 @@ sdkconfig.old
 **__pycache__/**
 .uv/
 
+#Wokwi
+.wokwi/
+wokwi.toml
+
 # Others
+.env
 **/cache
 **/.cache
 **/*.bak
 **/*.backup
 **/*.zip
+**/*.log
 node_modules
