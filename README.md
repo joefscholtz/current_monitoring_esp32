@@ -153,5 +153,5 @@ uv run pio run -e bare_metal -e rtos
 
 ### Other:
 
-- [ ] Test with PlatformIO IDE
+- [x] Test with PlatformIO IDE
 - [ ] Run Tests without `static inline` functions
