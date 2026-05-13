@@ -4,21 +4,40 @@
 
 ```mermaid
 C4Container
-    title Container diagram for ESP32 Firmware
+    title Container & Hardware Interaction Diagram
 
-    Container_Boundary(esp32, "ESP32 SoC") {
-        Container(sensor_task, "Sensor Processing Task", "FreeRTOS (Core 1)", "High-priority RMS sampling (300ms window).")
-        Container(network_task, "Network Task", "FreeRTOS (Core 0)", "Manages MQTT client and data publishing.")
-        ContainerDb(queue, "Data Queue", "FreeRTOS Queue", "Decouples sampling from networking.")
+    %% Physical Hardware Layer
+    System_Boundary(hw, "Physical Hardware") {
+        Container(leakage_ct, "CT 2000:1 (Leakage)", "Hardware", "GPIO 34 (ADC1_CH6) + 22k Burden")
+        Container(load_ct, "CT 1000:1 (Load)", "Hardware", "GPIO 35 (ADC1_CH7) + 100R Burden")
+        Container(eth_chip, "ENC28J60 (Ethernet)", "SPI Peripheral", "GPIO 18, 19, 23 (VSPI)")
     }
 
-    Container(cm_comp, "Current Monitor Component", "C (IDF Component)", "Encapsulates ADC logic and RMS math.")
-    Container(nm_comp, "Network Manager Component", "C (IDF Component)", "Encapsulates Wi-Fi/ETH and MQTT logic.")
+    %% Firmware Layer
+    Container_Boundary(esp32, "ESP32 SoC") {
 
-    Rel(sensor_task, cm_comp, "Calls")
-    Rel(sensor_task, queue, "Pushes readings_t")
-    Rel(queue, network_task, "Pops readings_t")
-    Rel(network_task, nm_comp, "Calls publish")
+        Container_Boundary(core1, "Core 1 (Sensing)") {
+            Container(sensor_task, "Sensor Task", "FreeRTOS", "vTaskDelayUntil (300ms frequency)")
+            Container(cm_comp, "Current Monitor", "IDF Component", "ADC1 Drivers + RMS Engine")
+        }
+
+        Container_Boundary(core0, "Core 0 (Networking)") {
+            Container(network_task, "Network Task", "FreeRTOS", "Asynchronous MQTT Client")
+            Container(nm_comp, "Network Manager", "IDF Component", "WiFi/ETH/MQTT Handlers")
+        }
+
+        ContainerDb(queue, "Data Queue", "FreeRTOS Queue", "Current_readings_t (inc. Timestamp)")
+    }
+
+    %% Relationships
+    Rel(leakage_ct, cm_comp, "Analog Signal", "Voltage (0-3.3V)")
+    Rel(load_ct, cm_comp, "Analog Signal", "Voltage (0-3.3V)")
+    Rel(sensor_task, cm_comp, "Reads Raw/RMS", "API Call")
+    Rel(sensor_task, queue, "Pushes Data", "Queue Send (Non-blocking)")
+
+    Rel(queue, network_task, "Pops Data", "Queue Receive (Blocking)")
+    Rel(network_task, nm_comp, "Triggers Pub", "API Call")
+    Rel(nm_comp, eth_chip, "SPI Commands", "VSPI Bus")
 ```
 
 ## 3. Design Decisions
@@ -39,7 +58,7 @@ To meet the 300ms maximum interval requirement, the firmware implements a high-f
   - Averaging: Multiple samples are accumulated per window to smooth out transient spikes.
   - Hardware Calibration: ADC calibration to mitigate chip-to-chip gain errors.
 
-## 3.3 Software Architecture
+### 3.3 Software Architecture
 
 - Modular Component Architecture: Logic is segregated into reusable, standalone components (`current_monitor`, `network_manager`) to minimize coupling and facilitate parallel testing.
 - Provider/Consumer Model: The `apps/` act as consumers of the `components/` provider library. This allows the same hardware-interfacing code to be reused across different execution models (Bare-Metal Super-Loop vs. RTOS Preemptive Tasks).
