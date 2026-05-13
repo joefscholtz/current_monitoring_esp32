@@ -1,5 +1,7 @@
 # current_monitoring_esp32
 
+Modular firmware project in PlatformIO and hardware design in KiCad using ESP32 and ESP-IDF framework for measuring current and detecting leakage using CT sensors, publishing the data via MQTT through Wifi ( and Ethernet, but not yet fully implemented ). For more informatation on design decisions consult the `docs` directory.
+
 ![Alt Text](docs/assets/board.png)
 
 ## Project structure
