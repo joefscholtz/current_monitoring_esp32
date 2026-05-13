@@ -103,7 +103,7 @@ without just
 ```bash
 DOCKER_COMPOSE_SERVICE=current_monitoring_esp32-app
 
-docker-compose run --rm $DOCKER_COMPOSE_SERVICE just init
+docker-compose run --rm $DOCKER_COMPOSE_SERVICE just build
 ```
 
 ### Without Docker:
