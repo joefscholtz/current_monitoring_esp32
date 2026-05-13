@@ -2,6 +2,7 @@
 #include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
+#include "network_manager.h"
 
 static const char *TAG = "BARE_METAL";
 
@@ -19,6 +20,8 @@ void app_main(void) {
     return;
   }
 
+  ESP_ERROR_CHECK(network_manager_init(NET_INTERFACE_WIFI))
+
   ESP_LOGI(TAG, "Starting Bare-Metal Super-Loop...");
 
   while (1) {
@@ -28,6 +31,15 @@ void app_main(void) {
 
     ESP_LOGI(TAG, "Leakage RMS: %.2f | Load RMS: %.2f", data.leakage_rms,
              data.load_rms);
+
+    if (network_is_connected()) {
+      char payload[128];
+      snprintf(payload, sizeof(payload),
+               "{\"leakage_rms\": %.2f, \"load_rms\": %.2f}", data.leakage_rms,
+               data.load_rms);
+
+      network_mqtt_publish("v1/devices/me/telemetry", payload);
+    }
 
     vTaskDelayUntil(&start_tick, pdMS_TO_TICKS(TOTAL_LOOP_MS));
   }
