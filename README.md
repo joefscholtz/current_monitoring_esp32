@@ -128,10 +128,11 @@ uv run pio run -e bare_metal -e rtos
 
 ### current_monitor:
 
-- [ ] Acquisition interval missed
-- [ ] Convert raw into voltage
-- [ ] Calibration
+- [x] Acquisition interval missed
+- [x] Convert raw into voltage
+- [x] Calibration
 - [ ] Move pin definitions to Kconfig
+- [ ] Check `MAX_DIGI_VALUE`
 
 ### mqtt:
 

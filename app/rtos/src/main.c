@@ -58,14 +58,22 @@ void vNetworkTask(void *pvParameters) {
 void app_main(void) {
   data_queue = xQueueCreate(10, sizeof(current_readings_t));
 
+  current_reading_config_t vref_cfg = {.adc_unit_id = ADC_UNIT_1,
+                                       .adc_channel_id = ADC_CHANNEL_4};
   current_reading_config_t leakage_cfg = {.adc_unit_id = ADC_UNIT_1,
                                           .adc_channel_id = ADC_CHANNEL_6};
   current_reading_config_t load_cfg = {.adc_unit_id = ADC_UNIT_1,
                                        .adc_channel_id = ADC_CHANNEL_7};
 
   current_monitor_handle_t *monitor =
-      current_monitor_init(leakage_cfg, load_cfg);
-  current_monitor_begin(monitor);
+      current_monitor_init(vref_cfg, leakage_cfg, load_cfg);
+  monitor->vref_enabled = true;
+  monitor->cali_enabled = true;
+
+  if (current_monitor_begin(monitor) != ESP_OK) {
+    ESP_LOGE(TAG, "Failed to initialize sensors");
+    return;
+  }
 
   xTaskCreatePinnedToCore(
       vSensorProcessingTask, "SensorMonitor", 4096, (void *)monitor,
@@ -79,7 +87,7 @@ void app_main(void) {
 
   network_manager_t *net_mgr =
       network_manager_create(NET_INTERFACE_WIFI, CONFIG_MQTT_BROKER_URL);
-  network_manager_init(net_mgr);
+  ESP_ERROR_CHECK(network_manager_init(net_mgr));
 
   xTaskCreatePinnedToCore(vNetworkTask, "Network", 4096, (void *)net_mgr,
                           configMAX_PRIORITIES - 2, NULL, 0);

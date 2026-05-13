@@ -1,0 +1,22 @@
+menu "Hardware Mapping"
+    config VREF_ADC_UNIT
+        int "VREF ADC Unit (1 or 2)"
+        default 1
+    config VREF_ADC_CHANNEL
+        int "VREF ADC Channel (GPIO32=4)"
+        default 4
+
+    config LEAKAGE_ADC_UNIT
+        int "Leakage ADC Unit (1 or 2)"
+        default 1
+    config LEAKAGE_ADC_CHANNEL
+        int "Leakage ADC Channel (GPIO34=6)"
+        default 6
+
+    config LOAD_ADC_UNIT
+        int "Load ADC Unit (1 or 2)"
+        default 1
+    config LOAD_ADC_CHANNEL
+        int "Load ADC Channel (GPIO35=7)"
+        default 7
+endmenu

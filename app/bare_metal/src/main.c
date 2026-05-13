@@ -7,13 +7,17 @@
 static const char *TAG = "BARE_METAL";
 
 void app_main(void) {
+  current_reading_config_t vref_cfg = {.adc_unit_id = ADC_UNIT_1,
+                                       .adc_channel_id = ADC_CHANNEL_4};
   current_reading_config_t leakage_cfg = {.adc_unit_id = ADC_UNIT_1,
                                           .adc_channel_id = ADC_CHANNEL_6};
   current_reading_config_t load_cfg = {.adc_unit_id = ADC_UNIT_1,
                                        .adc_channel_id = ADC_CHANNEL_7};
 
   current_monitor_handle_t *monitor =
-      current_monitor_init(leakage_cfg, load_cfg);
+      current_monitor_init(vref_cfg, leakage_cfg, load_cfg);
+  monitor->vref_enabled = true;
+  monitor->cali_enabled = true;
 
   if (current_monitor_begin(monitor) != ESP_OK) {
     ESP_LOGE(TAG, "Failed to initialize sensors");

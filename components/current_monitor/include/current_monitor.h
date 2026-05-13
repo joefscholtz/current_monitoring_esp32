@@ -2,7 +2,10 @@
 #define CURRENT_MONITOR_H
 
 #include "current_monitor_utils.h"
+#include "esp_adc/adc_cali.h"
+#include "esp_adc/adc_cali_scheme.h"
 #include "esp_adc/adc_oneshot.h"
+#include "esp_log.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "hal/adc_types.h"
@@ -26,10 +29,17 @@ typedef struct {
 } current_reading_config_t;
 
 typedef struct {
+  current_reading_config_t vref_config;
   current_reading_config_t leakage_config;
   current_reading_config_t load_config;
+
+  adc_oneshot_unit_handle_t vref_adc_handle;
   adc_oneshot_unit_handle_t leakage_adc_handle;
   adc_oneshot_unit_handle_t load_adc_handle;
+
+  adc_cali_handle_t cali_handle;
+  bool cali_enabled;
+  bool vref_enabled;
 } current_monitor_handle_t;
 
 typedef struct {
@@ -41,8 +51,12 @@ typedef struct {
 void current_monitor_readings_to_str(const current_readings_t *readings,
                                      char *out_str, size_t len);
 
+esp_err_t calibrate_adc(adc_unit_t unit, adc_channel_t channel,
+                        adc_atten_t atten, adc_cali_handle_t *out_handle);
+
 current_monitor_handle_t *
-current_monitor_init(current_reading_config_t leakage_config,
+current_monitor_init(current_reading_config_t vref_cfg,
+                     current_reading_config_t leakage_config,
                      current_reading_config_t load_config);
 
 esp_err_t current_monitor_begin(current_monitor_handle_t *handle);
