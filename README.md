@@ -1,5 +1,7 @@
 # current_monitoring_esp32
 
+![Alt Text](docs/assets/board.png)
+
 ## Project structure
 
 ```
@@ -7,9 +9,10 @@
 ├── .github/workflows/          # CI/CD
 ├── app/                        # Two alternatives to consume the library
 │   ├── bare_metal/             # Simple Super-Loop implementation
-│   └── rtos/                   # RTOS Task-based, using MQTT and non-blocking I/O
+│   └── rtos/                   # RTOS Task-based
 ├── components/                 # Library ESP-IDF style components
 │   └── current_monitor/        # RMS, Differential math, Calibration
+│   └── network_manager/        # Wifi, Ethernet and MQTT
 ├── docs/                       # Documentation
 ├── kicad/                      # KiCad files
 │   └── current_monitor_board/  # KiCad project
