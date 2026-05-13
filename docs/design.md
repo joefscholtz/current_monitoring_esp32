@@ -44,8 +44,6 @@ C4Container
 
 The system is designed for the ESP32-WROOM-32 (30 or 38 pin DevKit). The following pins were selected based on their peripheral capabilities (ADC1 vs ADC2) availability.
 
-| Header 1 | Header 2 | Header 3 |
-
 | Component     | GPIO | Peripheral | Function     | Logic / Signal                  |
 | ------------- | ---- | ---------- | ------------ | ------------------------------- |
 | Leakage CT    | 34   | ADC1_CH6   | Analog Input | AC signal + 1.65V Bias          |
